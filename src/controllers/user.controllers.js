@@ -1,6 +1,8 @@
 const catchError = require('../utils/catchError');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { json } = require('sequelize');
+const bcrypt =require('bcrypt');
 
 const getAll = catchError(async(req, res) => {
     const results = await User.findAll();
@@ -37,6 +39,23 @@ const update = catchError(async(req, res) => {
 
 const login = catchError(async(req, res)=>{
     const {email, password}= req.body
+
+    const user = await User.findOne({where:{email}})
+    if (!user) return res.status(401).json({ error: "user or password no founds"})
+    
+    const isValid = await bcrypt.compare(password, user.password)
+    if (!isValid) return res.status(401).json({ error: "user or password no founds"})
+
+    //validacion de password 
+    const token =jwt.sign(
+        {user},
+        process.env.TOKEN_SECRET,
+        {expiresIn: "1d"}
+
+    )
+
+
+    return res.json({user, token})
 })
 
 module.exports = {
