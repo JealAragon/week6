@@ -57,8 +57,6 @@ test ("put", async ()=>{
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body.firstName).toBe("jeal")
-
-
 })
 
 
