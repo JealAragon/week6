@@ -1,4 +1,4 @@
-const { getAll, create,  remove, update } = require('../controllers/cart.controllers');
+const { getAll, getOne, create,  remove, update } = require('../controllers/cart.controllers');
 const express = require('express');
 
 
@@ -9,6 +9,7 @@ routerCart.route('/')
     .post(create);
 
 routerCart.route('/:id')
+    .get(getOne)
     .delete(remove)
     .put(update);
 

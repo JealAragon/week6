@@ -2,10 +2,37 @@ const catchError = require('../utils/catchError');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const ProductImg = require('../models/ProductImg');
 
 const getAll = catchError(async(req, res) => {
     const userId = req.user.id 
     const results = await Cart.findAll(
+        {where: { userId},
+        include: [
+            // Product
+            {
+            model: Product,
+            attributes: { exclude: ["updatedAt", "createdAt"] },
+            include: [
+            {
+                model: Category,
+                attributes: ['name']
+                },
+                {
+                model: ProductImg
+                }
+            ]
+            }
+          ]
+    
+    });
+    return res.json(results);
+});
+
+const getOne = catchError(async(req, res) => {
+    const {id}= req.params
+    const userId = req.user.id 
+    const results = await Cart.findByPk(id,
         {where: { userId},
         include:[
             {
@@ -14,8 +41,9 @@ const getAll = catchError(async(req, res) => {
         include:{
             model:Category,
             attributes:["name"]
-        }
-        }]
+        }},
+        {model: ProductImg}
+    ]
     
     });
     return res.json(results);
@@ -32,7 +60,6 @@ const create = catchError(async(req, res) => {
 });
 
 const remove = catchError(async(req, res) => {
-
     const { id } = req.params;
 
     //permitir que solo el usuario es que elimine la URL y se le pasa al where 
@@ -58,6 +85,7 @@ const update = catchError(async(req, res) => {
 
 module.exports = {
     getAll,
+    getOne,
     create,
     remove,
     update

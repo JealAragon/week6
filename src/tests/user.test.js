@@ -76,6 +76,20 @@ test("post  login", async()=>{
 
 })
 
+
+test("POST -> 'URL_BASE/login', should return status code 401", async () => {
+    const userLogin = {
+      email: 'rene@gmail.com',
+      password: 'invalid password'
+    }
+  
+    const res = await request(app)
+      .post(`${URL_BASE}/login`)
+      .send(userLogin)
+  
+    expect(res.statusCode).toBe(401)
+  })
+
 test("delete", async()=>{
     const res = await request(app)
     .delete(`${URL_BASE}/${userId}`)

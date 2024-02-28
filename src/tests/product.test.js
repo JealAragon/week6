@@ -18,7 +18,7 @@ beforeAll(async()=>{
     }
 
     const res = await request(app)
-    .post(`${URL_BASE_USERS}`)
+    .post(URL_BASE_USERS)
     .send(user)
     TOKEN = res.body.token 
 
@@ -86,7 +86,7 @@ test("GET -> 'URL_BASE/:productId'", async () => {
     const res = await request(app)
       .get(`${URL_BASE}/${productId}`)
   
-    console.log(res.body);
+   // console.log(res.body);
   
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()

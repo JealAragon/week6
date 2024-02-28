@@ -10,6 +10,7 @@ const category ={
 let TOKEN
 let categoryId
 
+
 beforeAll(async()=>{
     const user ={
         email: "fernando@gmail.com",
@@ -48,6 +49,5 @@ test("delete", async()=>{
     const res = await request(app)
     .delete(`${URL_BASE}/${categoryId}`)
     .set("Authorization", `Bearer ${TOKEN}`)
-
     expect(res.status).toBe(204)
 })

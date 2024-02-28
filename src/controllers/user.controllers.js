@@ -1,7 +1,6 @@
 const catchError = require('../utils/catchError');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { json } = require('sequelize');
 const bcrypt =require('bcrypt');
 
 const getAll = catchError(async(req, res) => {
